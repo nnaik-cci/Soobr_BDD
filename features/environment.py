@@ -3,9 +3,17 @@ from utilities import ConfigReader
 
 
 def before_scenario(context, driver):
-    context.driver = webdriver.Chrome()
+    browsername = ConfigReader.read_configuration("basic info", "browser")
+    if browsername.__eq__("chrome"):
+        context.driver = webdriver.Chrome()
+    elif browsername.__eq__("firefox"):
+        context.driver = webdriver.Firefox()
+    elif browsername.__eq__("edge"):
+        context.driver = webdriver.Edge()
     context.driver.maximize_window()
-    context.driver.get("http://qa-soobr.creativecapsule.ccigoa:8080/")
+    test = ConfigReader.read_configuration("basic info", "url")
+    print(test)
+    context.driver.get(test)
 
 
 def after_scenario(context, driver):

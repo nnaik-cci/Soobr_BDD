@@ -4,6 +4,7 @@ from behave import *
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+from features import global_constants
 from features.pages.DashboardPage import DashboardPage
 from features.pages.LoginPage import LoginPage
 
@@ -39,21 +40,12 @@ def step_impl(context):
                                                  "// div["
                                                  "1]").is_displayed(), "check code!"
 
+
 @given(u'Soobr admin is logged in')
 def step_impl(context):
-    print("success ")
+    login_page = LoginPage(context.driver)
+    login_page.perform_login(global_constants.uername_admin, global_constants.password_admin)
+    dashboard_page = DashboardPage(context.driver)
+    dashboard_page.verify_login_success()
 
 
-@given(u'Soobr dashboard is open')
-def step_impl(context):
-    print("success ")
-
-
-@when(u'economic entity is selected')
-def step_impl(context):
-    print("success ")
-
-
-@then(u'User should be displayed details')
-def step_impl(context):
-    print("success")
