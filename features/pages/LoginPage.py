@@ -12,13 +12,12 @@ class LoginPage(BasePage):
 
     __username_field = (By.XPATH, "//input[@type='text']")
     __password_field = (By.XPATH, "//input[@type='password']")
-    __login_button = (By.XPATH, "/html//div[@id='root']/div[@class='makeStyles-root-3']//form//button["
-                                "@type='submit']/span[.='Anmelden']")
+    __login_button = (By.XPATH, "//span[normalize-space()='Anmelden']")
 
     def perform_login(self, username, password):
         self.driver.find_element(*self.__username_field).send_keys(username)
         self.driver.find_element(*self.__password_field).send_keys(password)
-        time.sleep(5)  # to be removed
+        time.sleep(7)  # to be removed
         self.driver.find_element(*self.__login_button).click()
         time.sleep(10)
 

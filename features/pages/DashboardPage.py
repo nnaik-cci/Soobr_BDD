@@ -20,7 +20,7 @@ class DashboardPage(BasePage):
     __economic_entity_row_cc = (By.XPATH, "//div[@class='MuiDataGrid-windowContainer']//div[2]")
     __ee_menu_link = (By.XPATH, "//div[@class='float-right']/div/div[1]/button[@type='button']")
     __create_ee_link = (By.XPATH, "//span[normalize-space()='Create business entity']")
-    __ee_name_field_search=(By.XPATH,"//input[@id='economic-entity-selection']")
+    __ee_name_field_search = (By.XPATH, "//input[@id='economic-entity-selection']")
     __ee_name_field = (By.XPATH, "//div[@class='row']/div[1]/div/div/input")
     __ee_service_provider_field = (
         By.XPATH, "//form/div[@class='modal-body']/div[2]/div[1]/div/div/div[@role='button']")
@@ -38,9 +38,19 @@ class DashboardPage(BasePage):
     __ee_create_header = (By.XPATH, "//div[@role='document']//form//span[.='Economic entity']")
 
     __ee_filter_button = (
-    By.XPATH, "//button[@class='MuiButtonBase-root MuiIconButton-root icon icon-exchange MuiIconButton-colorInherit']")
+        By.XPATH,
+        "//button[@class='MuiButtonBase-root MuiIconButton-root icon icon-exchange MuiIconButton-colorInherit']")
 
-    __ee_new_search_list=(By.XPATH,"//div[@class='MuiDataGrid-windowContainer']//div[2]")
+    __ee_new_search_list = (By.XPATH, "//div[@class='MuiDataGrid-windowContainer']//div[2]")
+    __dashboard_label = (By.XPATH, "/html//div[@id='root']/div[@class='jss3']//span[.='Dashboard']")
+    __analytics_button = (By.XPATH,
+                          "//a[@href='/cockpit/analytics']/button[@type='button']/span["
+                          "@class='MuiButton-label']/span[.='Analytics']")
+    __cc_economic_entity_row = (By.XPATH, "//div[normalize-space()='Creative Capsule Tower']")
+    __tab_cleaning_areas = (By.XPATH, "//span[normalize-space()='Cleaning areas']")
+    __tab_tour_activities = (By.XPATH, "//span[normalize-space()='Tour activities']")
+    __tab_building_overview= (By.XPATH, "//span[normalize-space()='Building overview']")
+    __tab_tours=(By.XPATH, "//span[normalize-space()='Tours']")
 
     def verify_login_success(self):
         assert self.driver.find_element(*self.__anmelden_popup).is_displayed(), "Error!Logged in Alert not shown"
@@ -57,12 +67,16 @@ class DashboardPage(BasePage):
         wait.until(ec.presence_of_element_located(self.__economic_entity_row_cc))
         return self.driver.find_element(*self.__economic_entity_row_cc).is_displayed()
 
-
-
     def goto_economic_entity(self):
         wait = WebDriverWait(self.driver, 30)
         # wait.until(ec.presence_of_element_located(self.__economic_entity_row_cc))
         self.driver.find_element(*self.__economic_entity_row_cc).click()
+
+    def open_cc_economic_entity(self):
+        wait = WebDriverWait(self.driver, 30)
+        wait.until(ec.presence_of_element_located(self.__cc_economic_entity_row))
+        self.driver.find_element(*self.__cc_economic_entity_row).click()
+        time.sleep(5)
 
     def is_ee_create_header_displayed(self) -> bool:
         return self.driver.find_element(*self.__ee_create_header).is_displayed()
@@ -104,7 +118,13 @@ class DashboardPage(BasePage):
     def check_created_eco_entity_displayed(self):
         wait = WebDriverWait(self.driver, 30)
         wait.until(ec.presence_of_element_located(self.__ee_new_search_list))
-        # assert self.driver.find_element(*self.__ee_new_search_list).text
-        #abc = self.driver.find_element(By.XPATH,
-          #                                       "//table[@class='table']/tbody/tr/td[contains(text(),'{}')]".format(                                                     new_contact)).text
-        # assert abc == new_contact, global_constants.validation_new_contact_home
+        # assert self.driver.find_element(*self.__ee_new_search_list).text abc = self.driver.find_element(By.XPATH,
+        # "//table[@class='table']/tbody/tr/td[contains(text(),'{}')]".format(
+        # new_contact)).text assert abc == new_contact, global_constants.validation_new_contact_home
+
+    def verify_loggedin_dashboard(self):
+        assert self.driver.find_element(*self.__dashboard_label).is_displayed(), "Error!Logged in dashboard is not " \
+                                                                                 "shown"
+        assert self.driver.find_element(*self.__analytics_button).is_displayed(), "Error! Dashboard not logged in!"
+
+

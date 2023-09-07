@@ -3,8 +3,8 @@ Feature: Economic entity
 #Background: Soobr admin is logged in
 @xyz
   Scenario: To verify successful creation of economic entity
-    Given Soobr admin is logged in
-    Given Soobr dashboard is open
+    Given Admin is logged in to Soobr
+    And   Soobr dashboard is open
     When  user clicks on Create Economic entity button
     Then  Economic entity should be successfully created
     Then  Economic entity should be displayed

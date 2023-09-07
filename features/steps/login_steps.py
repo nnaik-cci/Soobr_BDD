@@ -18,7 +18,7 @@ def step_impl(context):
 @when(u'valid login credentials are provided')
 def step_impl(context):
     login_page = LoginPage(context.driver)
-    login_page.perform_login("neha.naik", "Eqw6OVJL2TBk40PZmAaS")
+    login_page.perform_login(global_constants.uername_admin_qa, global_constants.password_admin_qa)
 
 
 @when(u'invalid login credentials are provided')
@@ -44,8 +44,9 @@ def step_impl(context):
 @given(u'Soobr admin is logged in')
 def step_impl(context):
     login_page = LoginPage(context.driver)
-    login_page.perform_login(global_constants.uername_admin, global_constants.password_admin)
+    login_page.perform_login(global_constants.username_admin_qa, global_constants.password_admin_qa)
     dashboard_page = DashboardPage(context.driver)
     dashboard_page.verify_login_success()
+
 
 
