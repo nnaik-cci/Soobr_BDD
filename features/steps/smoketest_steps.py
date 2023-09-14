@@ -1,3 +1,4 @@
+import pdb
 import time
 from behave import *
 from features import global_constants
@@ -17,28 +18,32 @@ def step_impl(context):
 @given(u'I Select and navigate to Economic entity from dashboard')
 def navigate_to_ee_detail_page(context):
     dashboard_page = DashboardPage(context.driver)
-    entity_details_page= EntityDetailsPage(context.driver)
+    entity_details_page = EntityDetailsPage(context.driver)
     dashboard_page.page_scroll()
     dashboard_page.open_cc_economic_entity()
     time.sleep(5)
     entity_details_page.verify_ee_page_navigation()
 
 
-
 @given(u'I click Tour activities tab under Tour activities')
 def click_tour_activities_tab(context):
-    entity_details_page= EntityDetailsPage(context.driver)
+    entity_details_page = EntityDetailsPage(context.driver)
     entity_details_page.navigate_to_tour_activities_tab()
 
 
 @when(u'I expand rows on building floor entry')
-def step_impl(context):
-    pass
+def expand_rows_building_floor(context):
+    entity_details_page = EntityDetailsPage(context.driver)
+    entity_details_page.go_to_tower_area()
 
 
-@then(u'Planned tour should be present  and captured (not 0 mins)')
-def step_impl(context):
-    pass
+@then(u'Planned tour should be present and captured')
+def planned_tour_present_capture(context):
+    entity_details_page = EntityDetailsPage(context.driver)
+    entity_details_page.check_planned_area()
+    #entity_details_page.hover_to_cleaning_area()
+    #entity_details_page.check_if_area_cleaned()
+    #entity_details_page.capture_area_to_clean()
 
 
 @when(u'I open Soobr app on tablet')
@@ -66,9 +71,10 @@ def step_impl(context):
     pass
 
 
-@then(u'Tour information tab in cockpit should have started status for the required tour')
+@then(u'Tour information tab in cockpit should have running status for the required tour')
 def step_impl(context):
-    pass
+    entity_details_page = EntityDetailsPage(context.driver)
+    entity_details_page.goto_tour_info_tab()
 
 
 @when(u'I select floor and area marked in red on floor plan')

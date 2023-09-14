@@ -123,6 +123,8 @@ class DashboardPage(BasePage):
         # new_contact)).text assert abc == new_contact, global_constants.validation_new_contact_home
 
     def verify_loggedin_dashboard(self):
+        wait = WebDriverWait(self.driver, 30)
+        wait.until(ec.presence_of_element_located(self.__dashboard_label))
         assert self.driver.find_element(*self.__dashboard_label).is_displayed(), "Error!Logged in dashboard is not " \
                                                                                  "shown"
         assert self.driver.find_element(*self.__analytics_button).is_displayed(), "Error! Dashboard not logged in!"
