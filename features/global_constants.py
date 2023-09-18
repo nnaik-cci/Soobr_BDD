@@ -6,7 +6,7 @@ economic_entity_name = "Creative Capsule"
 header_economic_entity = "Economic entity"
 
 username_admin_stage = "neha.naik"
-password_admin_stage = "X0KtqXyLalPWe5J9Czud"
+password_admin_stage = "m1SOMaIqhD0PnGMFWVQa"
 
 validation_login_url = "Error! Default url route should be log in"
 

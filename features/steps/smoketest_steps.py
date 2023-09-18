@@ -75,8 +75,10 @@ def step_impl(context):
 def step_impl(context):
     entity_details_page = EntityDetailsPage(context.driver)
     entity_details_page.goto_tour_info_tab()
+    entity_details_page.check_running_status()
 
 
 @when(u'I select floor and area marked in red on floor plan')
 def step_impl(context):
     pass
+

@@ -6,6 +6,7 @@ Feature: Soobr Admin Login
     Then  User should be successfully logged in
 
 
+
   Scenario: To verify unsuccessful login to Soobr cockpit
     Given Soobr cockpit login page is open
     When  invalid login credentials are provided

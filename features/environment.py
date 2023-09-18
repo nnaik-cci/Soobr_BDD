@@ -11,7 +11,7 @@ def before_scenario(context, driver):
     elif browsername.__eq__("edge"):
         context.driver = webdriver.Edge()
     context.driver.maximize_window()
-    test = ConfigReader.read_configuration("basic info", "url")
+    test = ConfigReader.read_configuration("basic info", "url_stage")
     print(test)
     context.driver.get(test)
 
