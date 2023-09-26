@@ -1,7 +1,7 @@
 import contextvars
-import datetime
+# import datetime
 import time
-
+from datetime import datetime
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -85,11 +85,12 @@ class EntityDetailsPage(BasePage):
         m = self.driver.find_element(By.XPATH, test1)
         a.scroll_to_element(m)
         a.move_to_element(m).perform()
+        wait = WebDriverWait(self.driver, 30)
         # time.sleep(5)
-        '''selected_area = self.driver.find_element(By.XPATH,
-                                                 "//*[@id='FloorPlanMap']//*[local-name()='g' and @id='cleaning-area-g-48334']")'''
+        wait.until((ec.presence_of_element_located(
+            (By.XPATH, "//*[@id='FloorPlanMap']//*[local-name()='g' and @id='cleaning-area-g-48346']//*[local-name()='polygon']"))))
         elem = self.driver.find_element(By.XPATH,
-                                        "//*[@id='FloorPlanMap']//*[local-name()='g' and @id='cleaning-area-g-48343']//*[local-name()='polygon']")
+                                        "//*[@id='FloorPlanMap']//*[local-name()='g' and @id='cleaning-area-g-48346']//*[local-name()='polygon']")
         test11 = elem.get_attribute("fill")
         time.sleep(3)
         # color = getattr(selected_area, 'fill')
@@ -99,13 +100,16 @@ class EntityDetailsPage(BasePage):
         wait = WebDriverWait(self.driver, 30)
         wait.until(ec.presence_of_element_located(self.__tour_info_tab))
         self.driver.find_element(*self.__tour_info_tab).click()
-        time.sleep(5)
+        #time.sleep(5)
         # self.driver.find_element(By.XPATH, "//td[normalize-space()='Floor 5-3 Tour 2']")
+        wait.until((ec.presence_of_element_located(
+            (By.XPATH, "//table[@class='table table-hover']/tbody/tr"))))
         info_rows = self.driver.find_elements(By.XPATH,
                                               "//table[@class='table table-hover']/tbody/tr")
         xyz = []
         info_row = []
         for result1 in info_rows:
+
             row = self.driver.find_elements(By.XPATH, "//table[@class='table table-hover']/tbody/tr")
             if 'Floor 5-3 Tour 2' in result1.text:
                 time.sleep(3)
@@ -127,17 +131,22 @@ class EntityDetailsPage(BasePage):
                                         "//div[@class='mt-3 row']/div[@class='col']/ul//span[.='Tour activities']")
         test.click()
         # assert self.driver.current_url == global_constants.tour_activities_url, global_constants.validation_incorrect_url
+        wait.until((ec.presence_of_element_located(
+            (By.XPATH, "//*[@id='FloorPlanMap']//*[local-name()='g' and @id='cleaning-area-g-48343']//*[local-name()='polygon']"))))
         green_elem = self.driver.find_element(By.XPATH,
-                                              "//*[@id='FloorPlanMap']//*[local-name()='g' and @id='cleaning-area-g-48335']//*[local-name()='polygon']")
+                                              "//*[@id='FloorPlanMap']//*[local-name()='g' and @id='cleaning-area-g-48343']//*[local-name()='polygon']")
         check = green_elem.get_attribute("fill")
         time.sleep(3)
         # color = getattr(selected_area, 'fill')
         assert check == '#38cb89', "Wrong color"
         green_elem.click()
         # verify that area analysis window opens
-        # wait.until(ec.presence_of_element_located(By.XPATH, "//span[normalize-space()='Area analysis']"))
+        wait.until((ec.presence_of_element_located(
+            (By.XPATH, "//span[normalize-space()='Area analysis']"))))
         assert self.driver.find_element(By.XPATH,
                                         "//span[normalize-space()='Area analysis']").text == "Area analysis", "Area analysis window not opened!"
+        wait.until((ec.presence_of_element_located(
+            (By.XPATH, "//span[normalize-space()='Completed']"))))
         self.driver.find_element(By.XPATH, "//span[normalize-space()='Completed']").click()
         time.sleep(3)
         # check that first entry has the cleaned floor
@@ -151,17 +160,26 @@ class EntityDetailsPage(BasePage):
         time.sleep(3)
         completed_result = completed_row_text.split("\n")
         comp_tour = completed_result[0]
-        comp_date = completed_result[0]
+        comp_date = completed_result[2]
+        comp_date_split = comp_date.split(" ")
+        comp_date_1 = comp_date_split[0]
+        from datetime import datetime
+        current_date = datetime.today().strftime('%#m/%#d/%Y')
         assert comp_tour == 'Floor 5-3 Tour 2', "Incorrect cleaned tour name!"
-        current_date = datetime.date.today()
-        assert comp_date == current_date,"Cleaned date correct!"
-        #self.driver.find_element(By.XPATH,"//i[@id='cleaning-5-info']  info icon")
+        assert comp_date_1 == current_date, "Cleaned date is not current date!"
+        # self.driver.find_element(By.XPATH,"//i[@id='cleaning-5-info']  info icon")
         # if info icon exists hover over it
 
         p = ActionChains(self.driver)
-        q = self.driver.find_element(By.XPATH,"//i[@id='cleaning-5-info']  info icon")
+        q = self.driver.find_element(By.XPATH, "//i[@id='cleaning-6-info']")
         p.move_to_element(q).perform()
-        time.sleep(5)
+        self.driver.save_screenshot("image.png")
+
+        tt1_text = wait.until(ec.visibility_of_element_located((By.XPATH, "//div[@class='tooltip-inner']/div"))).text
+        compare_text = "Has just been carried out (connected)"
+        assert compare_text == tt1_text, "Info text not matching!"
+        self.driver.save_screenshot("image2.png")
+
 
     def hover_to_cleaning_area(self):
         wait = WebDriverWait(self.driver, 30)
